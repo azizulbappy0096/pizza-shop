@@ -1,3 +1,57 @@
-body {
-  background-color: brown;
+.home__header {
+  background-color: #fff;
+  border-bottom: #f8f8f8;
+}
+.home__header nav .home__nav--right ul li:last-child a {
+  background-color: #fe5f1e;
+  border-radius: 20px;
+  padding: 4px 12px;
+  padding-left: 20px;
+}
+.home__header nav .home__nav--right ul li:hover {
+  color: #b23301;
+  transition: all 0.25s linear;
+}
+.home__header nav .home__nav--right ul li:hover:last-child a {
+  transition: all 0.25s linear;
+  background-color: #b23301;
+}
+
+.home__hero {
+  background-color: #f8f8f8;
+}
+.home__hero .home__hero--left button {
+  background-color: #fe5f1e;
+  border-radius: 20px;
+  color: #fff;
+  transition: all 0.25s linear;
+}
+.home__hero .home__hero--left button:hover {
+  background-color: #b23301;
+}
+.home__hero .home__hero--left button:focus {
+  outline: none;
+  border: none;
+}
+.home__hero .home__hero--right img {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.home__menu .home__item span {
+  background-color: #efefefa8;
+}
+
+.home__addToCart {
+  color: #fe5f1e;
+  border: 1px solid #fe5f1e;
+  word-spacing: 12px;
+  transition: all 0.25s ease-in-out;
+}
+.home__addToCart:hover {
+  color: #fff;
+  background-color: #fe5f1e;
+}
+.home__addToCart:focus {
+  outline: none;
 }

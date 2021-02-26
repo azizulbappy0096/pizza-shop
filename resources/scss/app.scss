@@ -1,5 +1,79 @@
-$primary: brown;
+@import "./variable.scss";
 
-body {
-    background-color: $primary
+.home__header {
+  background-color: $pure;
+  border-bottom: $secondary;
+
+  nav {
+    .home__nav--right ul {
+      li:last-child {
+        a {
+          background-color: $primary;
+          border-radius: 20px;
+          padding: 4px 12px;
+          padding-left: 20px;
+        }
+      }
+
+      li:hover {
+        color: $primary-hover;
+        transition: all 0.25s linear;
+        &:last-child {
+          a {
+            transition: all 0.25s linear;
+            background-color: $primary-hover;
+          }
+        }
+      }
+    }
+  }
+}
+
+.home__hero {
+  background-color: $secondary;
+  .home__hero--left {
+    button {
+      background-color: $primary;
+      border-radius: 20px;
+      color: $pure;
+      transition: all 0.25s linear;
+      &:hover {
+        background-color: $primary-hover;
+      }
+
+      &:focus {
+        outline: none;
+        border: none;
+      }
+    }
+  }
+
+  .home__hero--right {
+    img {
+      object-fit: contain;
+    }
+  }
+}
+
+.home__menu {
+  .home__item {
+    span {
+      background-color: #efefefa8;
+    }
+  }
+}
+
+.home__addToCart {
+  color: $primary;
+  border: 1px solid $primary;
+  word-spacing: 12px;
+  transition: all 0.25s ease-in-out;
+  &:hover {
+    color: $pure;
+    background-color: $primary;
+  }
+
+  &:focus {
+    outline: none;
+  }
 }
