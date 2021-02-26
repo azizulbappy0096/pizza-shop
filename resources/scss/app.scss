@@ -2,7 +2,7 @@
 
 .home__header {
   background-color: $pure;
-  border-bottom: $secondary;
+  border-bottom: 1px solid $border-bottom;
 
   nav {
     .home__nav--right ul {
@@ -75,5 +75,14 @@
 
   &:focus {
     outline: none;
+  }
+}
+
+.cart__back {
+  background-color: $primary;
+  transition: all 0.25s linear;
+  color: $pure;
+  &:hover {
+    background-color: $primary-hover;
   }
 }

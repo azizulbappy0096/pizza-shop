@@ -1,6 +1,6 @@
 .home__header {
   background-color: #fff;
-  border-bottom: #f8f8f8;
+  border-bottom: 1px solid #dcdcdc66;
 }
 .home__header nav .home__nav--right ul li:last-child a {
   background-color: #fe5f1e;
@@ -54,4 +54,13 @@
 }
 .home__addToCart:focus {
   outline: none;
+}
+
+.cart__back {
+  background-color: #fe5f1e;
+  transition: all 0.25s linear;
+  color: #fff;
+}
+.cart__back:hover {
+  background-color: #b23301;
 }
