@@ -19,11 +19,17 @@ app.set("view engine", "ejs");
 
 // routes
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index", { title: "Home" });
 });
 
 app.get("/cart", (req, res) => {
-  res.render("customer/cart");
+  res.render("customer/cart", { title: "Cart" });
+});
+app.get("/login", (req, res) => {
+  res.render("auth/login", { title: "Login" });
+});
+app.get("/register", (req, res) => {
+  res.render("auth/register", { title: "Register" });
 });
 
 

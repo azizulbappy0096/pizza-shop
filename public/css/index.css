@@ -56,6 +56,14 @@
   outline: none;
 }
 
+.cart {
+  background-color: #f9fafb;
+}
+
+.cart-total {
+  color: #fe5f1e;
+}
+
 .cart__back {
   background-color: #fe5f1e;
   transition: all 0.25s linear;

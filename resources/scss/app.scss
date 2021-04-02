@@ -78,6 +78,14 @@
   }
 }
 
+.cart {
+  background-color: $cart-background;
+}
+
+.cart-total {
+  color: $primary;
+}
+
 .cart__back {
   background-color: $primary;
   transition: all 0.25s linear;
