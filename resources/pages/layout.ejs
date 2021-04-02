@@ -37,9 +37,20 @@
           </ul>
         </section>
         <section class="home__nav--right block md:hidden">
-          <i class="fa fa-bars cursor-pointer text-xl" aria-hidden="true"></i>
+          <i id="ham-menu" class="fa fa-bars cursor-pointer text-xl" aria-hidden="true"></i>
         </section>
       </nav>
+      <section id="ham-list" class="hamburger-menu mt-6 hidden relative z-10">
+        <ul class="flex flex-col ">
+          <li class="pl-6 py-3"><a href=""> Menu </a></li>
+          <li class="pl-6 py-3"><a href=""> Offers </a></li>
+          <li class="pl-6 py-3"><a href="/register"> Register </a></li>
+          <li class="pl-6 py-3"><a href="/login"> Login </a></li>
+          <li class="pl-6 py-3">
+            <a href="/cart" class="inline-block"> <img src="/img/cart.png" /> </a>
+          </li>
+        </ul>
+      </section>
     </header>
 
     <%- body %>

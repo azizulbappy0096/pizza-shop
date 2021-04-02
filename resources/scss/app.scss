@@ -29,6 +29,34 @@
   }
 }
 
+.hamburger-menu {
+  border-top: 0.25px solid #efeeee;
+}
+
+.hamburger-menu ul {
+
+  li:last-child {
+    a {
+      background-color: $primary;
+      border-radius: 20px;
+      padding: 4px 12px;
+      padding-left: 20px;
+    }
+  }
+
+  li:hover {
+    background-color: #e86d3c;
+    cursor: pointer;
+    transition: all 0.25s linear;
+    &:last-child {
+      a {
+        transition: all 0.25s linear;
+        background-color: #e86d3c;
+      }
+    }
+  }
+}
+
 .home__hero {
   background-color: $secondary;
   .home__hero--left {

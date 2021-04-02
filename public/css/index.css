@@ -17,6 +17,26 @@
   background-color: #b23301;
 }
 
+.hamburger-menu {
+  border-top: 0.25px solid #efeeee;
+}
+
+.hamburger-menu ul li:last-child a {
+  background-color: #fe5f1e;
+  border-radius: 20px;
+  padding: 4px 12px;
+  padding-left: 20px;
+}
+.hamburger-menu ul li:hover {
+  background-color: #e86d3c;
+  cursor: pointer;
+  transition: all 0.25s linear;
+}
+.hamburger-menu ul li:hover:last-child a {
+  transition: all 0.25s linear;
+  background-color: #e86d3c;
+}
+
 .home__hero {
   background-color: #f8f8f8;
 }

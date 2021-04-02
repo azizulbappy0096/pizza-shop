@@ -8,6 +8,19 @@
 /***/ (() => {
 
 console.log("Hello world");
+var isOn = false;
+var hamMenu = document.getElementById("ham-menu");
+var menuList = document.getElementById("ham-list");
+
+hamMenu.onclick = function () {
+  if (!isOn) {
+    menuList.style = "display: block";
+    isOn = true;
+  } else {
+    menuList.style = "display: none";
+    isOn = false;
+  }
+};
 
 /***/ }),
 
