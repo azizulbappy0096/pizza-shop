@@ -32,7 +32,7 @@
             <li class="ml-6"><a href="/register"> Register </a></li>
             <li class="ml-6"><a href="/login"> Login </a></li>
             <li class="ml-6">
-              <a href="/cart" class="inline-block"> <img src="/img/cart.png" /> </a>
+              <a href="/cart" class="flex items-center w-max"> <span class="cartCounter text-white font-bold pr-2"> <%= session.cart ? session.cart.totalQty : 0 %> </span> <img src="/img/cart.png" /> </a>
             </li>
           </ul>
         </section>
@@ -47,7 +47,7 @@
           <li class="pl-6 py-3"><a href="/register"> Register </a></li>
           <li class="pl-6 py-3"><a href="/login"> Login </a></li>
           <li class="pl-6 py-3">
-            <a href="/cart" class="inline-block"> <img src="/img/cart.png" /> </a>
+            <a href="/cart" class="flex items-center w-max"> <span class="cartCounter text-white font-bold pr-2"> <%= session.cart ? session.cart.totalQty : 0 %> </span>  <img src="/img/cart.png" /> </a>
           </li>
         </ul>
       </section>

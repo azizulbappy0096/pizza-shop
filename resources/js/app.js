@@ -1,6 +1,9 @@
+// modules
+import axios from "axios"
+import Noty from "noty";
 
-console.log("Hello world")
 
+// hamburger menu
 let isOn = false;
 let hamMenu = document.getElementById("ham-menu");
 let menuList = document.getElementById("ham-list");
@@ -15,3 +18,39 @@ hamMenu.onclick = () => {
     }
 }
 
+// add-to-cart 
+let buttons = document.querySelectorAll(".home__addToCart");
+let cartCounter = document.querySelector(".cartCounter");
+
+const updateCart = (pizza) => {
+    
+    axios.post("/cart/update", pizza).then(res => {
+        cartCounter.textContent = res.data.totalQty
+        new Noty({
+            type:"success",
+            text: 'Item added to cart!',
+            timeout: 1000,
+            progressBar: false,
+            
+        }).show();
+
+    }).catch(err => {
+        new Noty({
+            type:"error",
+            text: 'Something went wrong!!',
+            timeout: 2000,
+            progressBar: false,
+            
+        }).show();
+        throw new Error(err);
+    })
+}
+
+buttons.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+
+        const pizza = JSON.parse(btn.dataset.pizza)
+        console.log(btn.dataset.pizza)
+        updateCart(pizza)
+    })
+})

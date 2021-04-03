@@ -1,4 +1,14 @@
 @import "./variable.scss";
+@import "~noty/src/noty.scss";
+@import "~noty/src/themes/mint.scss";
+
+body {
+  min-height: 100vh;
+}
+
+main {
+  min-height: calc(100vh - 86px);
+}
 
 .home__header {
   background-color: $pure;
@@ -34,7 +44,6 @@
 }
 
 .hamburger-menu ul {
-
   li:last-child {
     a {
       background-color: $primary;
@@ -121,4 +130,9 @@
   &:hover {
     background-color: $primary-hover;
   }
+}
+
+.noty_theme__mint {
+  border-radius: 50px!important;
+  padding-left: 8px!important;
 }

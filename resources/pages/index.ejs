@@ -16,89 +16,29 @@
     </div>
   </section>
 
-  <section class="home__menu container mx-2 lg:mx-auto py-8">
+  <section class="home__menu container mx-2 md:mx-auto py-8">
     <h2>All Pizzas</h2>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 py-4 px-4">
+      <% pizzas.map(pizza => { %>
       <section
         class="home__item mr-2 w-full lg:w-4/5 px-2 flex flex-col items-center justify-center"
       >
-        <img src="/img/pizza.png" alt="menu item photo" />
+        <img src="/img/menu/<%= pizza.image %>" alt="menu item photo" />
         <div class="text-center">
-          <h3 class="py-4 text-lg">Margherita</h3>
-          <span class="text-xs rounded-full uppercase py-1 px-3"> small </span>
+          <h3 class="py-4 text-lg"><%= pizza.name %></h3>
+          <span class="text-xs rounded-full uppercase py-1 px-3">
+            <%= pizza.size %>
+          </span>
         </div>
 
         <div class="flex items-center justify-between w-full py-8">
-          <h2>$250</h2>
-          <button class="home__addToCart px-2 md:px-4 rounded-2xl">
+          <h2>$<%= pizza.price %></h2>
+          <button data-pizza=<%= JSON.stringify(pizza) %> class="home__addToCart px-2 md:px-4 rounded-2xl">
             + Add
           </button>
         </div>
       </section>
-      <section
-        class="home__item mr-2 w-full lg:w-4/5 px-2 flex flex-col items-center justify-center"
-      >
-        <img src="/img/pizza.png" alt="menu item photo" />
-        <div class="text-center">
-          <h3 class="py-4 text-lg">Margherita</h3>
-          <span class="text-xs rounded-full uppercase py-1 px-3"> small </span>
-        </div>
-
-        <div class="flex items-center justify-between w-full py-8">
-          <h2>$250</h2>
-          <button class="home__addToCart px-2 md:px-4 rounded-2xl">
-            + Add
-          </button>
-        </div>
-      </section>
-      <section
-        class="home__item mr-2 w-full lg:w-4/5 px-2 flex flex-col items-center justify-center"
-      >
-        <img src="/img/pizza.png" alt="menu item photo" />
-        <div class="text-center">
-          <h3 class="py-4 text-lg">Margherita</h3>
-          <span class="text-xs rounded-full uppercase py-1 px-3"> small </span>
-        </div>
-
-        <div class="flex items-center justify-between w-full py-8">
-          <h2>$250</h2>
-          <button class="home__addToCart px-2 md:px-4 rounded-2xl">
-            + Add
-          </button>
-        </div>
-      </section>
-      <section
-        class="home__item mr-2 w-full lg:w-4/5 px-2 flex flex-col items-center justify-center"
-      >
-        <img src="/img/pizza.png" alt="menu item photo" />
-        <div class="text-center">
-          <h3 class="py-4 text-lg">Margherita</h3>
-          <span class="text-xs rounded-full uppercase py-1 px-3"> small </span>
-        </div>
-
-        <div class="flex items-center justify-between w-full py-8">
-          <h2>$250</h2>
-          <button class="home__addToCart px-2 md:px-4 rounded-2xl">
-            + Add
-          </button>
-        </div>
-      </section>
-      <section
-        class="home__item mr-2 w-full lg:w-4/5 px-2 flex flex-col items-center justify-center"
-      >
-        <img src="/img/pizza.png" alt="menu item photo" />
-        <div class="text-center">
-          <h3 class="py-4 text-lg">Margherita</h3>
-          <span class="text-xs rounded-full uppercase py-1 px-3"> small </span>
-        </div>
-
-        <div class="flex items-center justify-between w-full py-8">
-          <h2>$250</h2>
-          <button class="home__addToCart px-2 md:px-4 rounded-2xl">
-            + Add
-          </button>
-        </div>
-      </section>
+      <% }) %>
     </div>
   </section>
 </main>
