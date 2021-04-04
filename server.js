@@ -44,6 +44,7 @@ app.use(session({
 app.use(express.static("public"));
 app.use(flash());
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 app.use((req, res, next) => {
   
   res.locals.session = req.session

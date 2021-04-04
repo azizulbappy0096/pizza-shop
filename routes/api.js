@@ -2,6 +2,7 @@ const router = require("express").Router();
 const multer = require("multer");
 const MenuModel = require("../app/models/menu");
 
+// menu image storage
 var menuDest = multer.diskStorage({
   destination: function (req, file, cb) {
   
@@ -27,6 +28,7 @@ getExtention = (mimeType) => {
 
 var upload = multer({ storage: menuDest });
 
+// menu route
 router.post("/menu", upload.single("menu"), async (req, res) => {
   try {
     const newItem = new MenuModel({
@@ -43,5 +45,7 @@ router.post("/menu", upload.single("menu"), async (req, res) => {
     throw new Error(err);
   }
 });
+
+
 
 module.exports = router;
