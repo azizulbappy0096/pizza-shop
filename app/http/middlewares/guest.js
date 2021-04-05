@@ -1,22 +1,27 @@
 const guest = (req, res, next) => {
-    if(!req.isAuthenticated()) {
+  if (!req.isAuthenticated()) {
+    return next();
+  }
 
-        return next()
-    }
-
-
-    return res.redirect("/")
-}
+  return res.redirect("/");
+};
 
 const auth = (req, res, next) => {
-    if(req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role !== "admin") {
+    return next();
+  }
 
-        return next()
+  return res.redirect("/");
+};
+
+const admin = (req, res, next) => {
+    if (req.isAuthenticated() && req.user.role === "admin") {
+      return next();
     }
+  console.log(req.user)
+    return res.redirect("/login");
+  };
 
-
-    return res.redirect("/")
-}
-
-exports.guest = guest
-exports.auth = auth
+exports.guest = guest;
+exports.auth = auth;
+exports.admin = admin;

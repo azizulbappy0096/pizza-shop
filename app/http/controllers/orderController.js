@@ -4,8 +4,10 @@ const OrderModel = require("../../models/order");
 const orderController = {
   orders: async (req, res) => {
     const userId = req.user._id;
+    
     try {
         const getOrders = await OrderModel.find({customerId: userId}).sort({createdAt: "desc"})
+        res.setHeader("Cache-Control", "no-store, max-age=0")
       res.render("customer/orders", { title: "Orders", orders: getOrders });
     } catch (err) {
         req.flash("error", "Couldn't fetch data")
@@ -32,6 +34,7 @@ const orderController = {
 
       const savedOrder = await newOrder.save();
       req.session.cart = null
+      req.flash("success", "Order placed successfully");
       res.redirect("/customer/orders");
     } catch (err) {
        

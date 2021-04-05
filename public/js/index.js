@@ -1834,6 +1834,57 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/admin/admin.js":
+/*!*************************************!*\
+  !*** ./resources/js/admin/admin.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getAdminOrders": () => (/* binding */ getAdminOrders)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+// modules
+
+
+var buildTable = function buildTable(data) {
+  return data.map(function (order) {
+    return "\n        <tr>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\"> \n          <h4> ".concat(order._id, " </h4>  \n          <ul class=\"text-sm\">\n              ").concat(renderItems(order.items), "\n          </ul>\n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">\n            <ul class=\"text-sm\">\n                <li> Name: ").concat(order.customerId.username, " </li>\n                <li> Phone: ").concat(order.phone, " </li>\n            </ul>\n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">").concat(order.address, "</td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">\n            <div class=\"inline-block relative w-4/5\">\n                <form action=\"\">\n                    <select class=\"block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline\">\n                        <option >Really long option that will likely overlap the chevron</option>\n                        <option selected>Option 2</option>\n                        <option>Option 3</option>\n                      </select>\n                      <div class=\"pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700\">\n                        <svg class=\"fill-current h-4 w-4\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z\"/></svg>\n                      </div>\n                </form>\n              </div>\n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">").concat(new Date(order.createdAt).toLocaleTimeString(), "</td>\n      </tr>\n        ");
+  });
+};
+
+var renderItems = function renderItems(items) {
+  var mockup = "";
+
+  for (var _i = 0, _Object$values = Object.values(items); _i < _Object$values.length; _i++) {
+    var order = _Object$values[_i];
+    mockup += "<li> ".concat(order.item.name, " - ").concat(order.qty, " Pcs </li>");
+  }
+
+  return mockup;
+};
+
+var getAdminOrders = function getAdminOrders() {
+  var adminTableBody = document.getElementById("adminTableBody");
+  var mockup = "";
+  axios__WEBPACK_IMPORTED_MODULE_0___default().get("/admin/orders", {
+    headers: {
+      "x-requested-with": "XMLHttpRequest"
+    }
+  }).then(function (res) {
+    console.log(res);
+    mockup += buildTable(res.data).join("");
+    adminTableBody.innerHTML = mockup;
+  })["catch"](function (err) {
+    console.log(err);
+  });
+};
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -1846,7 +1897,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! noty */ "./node_modules/noty/lib/noty.js");
 /* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(noty__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _admin_admin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./admin/admin */ "./resources/js/admin/admin.js");
 // modules
+
+ // admin modules
 
  // hamburger menu
 
@@ -1908,7 +1962,22 @@ buttons.forEach(function (btn) {
     var pizza = JSON.parse(btn.dataset.pizza);
     updateCart(pizza);
   });
-});
+}); // remove order placed message
+
+var successMsg = document.getElementById("success-message");
+
+if (successMsg) {
+  setTimeout(function () {
+    successMsg.remove();
+  }, 2000);
+} // admin order page
+
+
+var adminTableBody = document.getElementById("adminTableBody");
+
+if (adminTableBody) {
+  (0,_admin_admin__WEBPACK_IMPORTED_MODULE_2__.getAdminOrders)();
+}
 
 /***/ }),
 

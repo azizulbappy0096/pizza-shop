@@ -1,0 +1,55 @@
+<main class="orders">
+  
+      <section class="home__menu container mx-2 md:mx-auto py-8">
+          <h2 class="font-bold py-4">All Orders</h2>
+  
+
+          <table class="table-fixed bg-white w-full">
+              <thead>
+                <tr>
+                  <th  class="w-1/2 text-justify pl-2">Orders</th>
+                  <th class="w-1/4 text-justify pl-2">Customer</th>
+                  <th class="w-1/4 text-justify pl-2">Address</th>
+                  <th class="w-1/4 text-justify pl-2">Status</th>
+                  <th class="w-1/4 text-justify pl-2">Placed At</th>
+                </tr>
+              </thead>
+              <tbody id="adminTableBody">
+               
+                  <tr>
+                    <td class="border border-gray-300 py-2 px-3 break-words"> 
+                      <h4> orderId </h4>  
+                      <ul class="text-sm">
+                          <li> item1 - 1 </li>
+                          <li> item2 - 2</li>
+                      </ul>
+                    </td>
+                    <td class="border border-gray-300 py-2 px-3 break-words">
+                        <ul class="text-sm">
+                            <li> name - 1 </li>
+                            <li> phone - 2</li>
+                        </ul>
+                    </td>
+                    <td class="border border-gray-300 py-2 px-3 break-words">address</td>
+                    <td class="border border-gray-300 py-2 px-3 break-words">
+                        <div class="inline-block relative w-4/5">
+                            <form action="">
+                                <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    <option >Really long option that will likely overlap the chevron</option>
+                                    <option selected>Option 2</option>
+                                    <option>Option 3</option>
+                                  </select>
+                                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                                  </div>
+                            </form>
+                          </div>
+                    </td>
+                    <td class="border border-gray-300 py-2 px-3 break-words">time</td>
+                  </tr>
+                 
+              </tbody>
+            </table>
+        </section>
+
+  </main>

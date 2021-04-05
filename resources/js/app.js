@@ -2,6 +2,9 @@
 import axios from "axios";
 import Noty from "noty";
 
+// admin modules
+import { getAdminOrders } from "./admin/admin";
+
 // hamburger menu
 let isOn = false;
 let hamMenu = document.getElementById("ham-menu");
@@ -19,19 +22,19 @@ hamMenu.onclick = () => {
 
 // logout
 let logout = document.getElementById("logout");
-if(logout) {
-    logout.addEventListener("click", (e) => {
-        axios
-          .post("/logout")
-          .then((res) => {
-            if (res.status === 200) {
-              window.location.href = res.request.responseURL;
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+if (logout) {
+  logout.addEventListener("click", (e) => {
+    axios
+      .post("/logout")
+      .then((res) => {
+        if (res.status === 200) {
+          window.location.href = res.request.responseURL;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
       });
+  });
 }
 
 // add-to-cart
@@ -62,10 +65,24 @@ const updateCart = (pizza) => {
 };
 
 buttons.forEach((btn) => {
-    
   btn.addEventListener("click", (e) => {
     const pizza = JSON.parse(btn.dataset.pizza);
-   
+
     updateCart(pizza);
   });
 });
+
+// remove order placed message
+const successMsg = document.getElementById("success-message")
+if(successMsg) {
+  setTimeout(() => {
+    successMsg.remove()
+  }, 2000)
+}
+
+
+// admin order page
+const adminTableBody = document.getElementById("adminTableBody")
+if(adminTableBody) {
+  getAdminOrders()
+}

@@ -2,7 +2,7 @@ const authValidator = require("../validator/authValidator");
 const bcrypt = require("bcryptjs");
 const UserModel = require("../../models/user");
 const passport = require("passport");
-const axios = require("axios")
+const axios = require("axios");
 
 const authController = {
   register: async (req, res, next) => {
@@ -26,13 +26,11 @@ const authController = {
       });
       const savedUser = await newUser.save();
       req.login(savedUser, (err) => {
-        if(err) {
-          return next(err)
+        if (err) {
+          return next(err);
         }
-        res.redirect("/")
-      })
-      
-      
+        res.redirect("/customer/orders");
+      });
     } catch (err) {
       req.flash("error", "Something went wrong!");
       req.flash("email", email);
@@ -42,33 +40,38 @@ const authController = {
     }
   },
   login: (req, res, next) => {
-    // passport.authenticate("local", (err, user, info) => {
-    //   if(err) {
-    //     req.flash("error", info.message)
-    //     return next(err)
-    //   }else if(!user) {
-    //     req.flash("error", info.message)
-    //     return res.redirect("/login")
-    //   }
+    passport.authenticate("local", (err, user, info) => {
+      if (err) {
+        req.flash("error", info.message);
+        return next(err);
+      } else if (!user) {
+        req.flash("error", info.message);
+        return res.redirect("/login");
+      }
 
-    //   req.login(user, (err) => {
-    //     if(err) {
-    //     return next(err)
-    //     }
-    //     return res.redirect("/")
-    //   })
-    // })(req, res, next)
-    passport.authenticate("local", {
-      successRedirect: "/",
-      failureRedirect: "/login",
-      failureFlash: true,
+      req.login(user, (err) => {
+        if (err) {
+          req.flash("error", info.message);
+          return next(err);
+        }
+
+        if (req.user.role === "admin") {
+          return res.redirect("/admin/orders");
+        }
+        res.redirect("/customer/orders");
+      });
     })(req, res, next);
+    // passport.authenticate("local", {
+    //   successRedirect: req.user ? "/admin/orders" : "/customer/orders",
+    //   failureRedirect: "/login",
+    //   failureFlash: true,
+    // })(req, res, next);
   },
 
   logout: (req, res) => {
     req.logout();
-    res.redirect("/login")
-  }
+    res.redirect("/login");
+  },
 };
 
 module.exports = authController;
