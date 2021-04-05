@@ -1,5 +1,5 @@
 const cartController = (req) => {
-    console.log(req.body)
+   
 
   if (!req.session.cart) {
     req.session.cart = {

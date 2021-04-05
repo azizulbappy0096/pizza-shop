@@ -1862,7 +1862,22 @@ hamMenu.onclick = function () {
     menuList.style = "display: none";
     isOn = false;
   }
-}; // add-to-cart 
+}; // logout
+
+
+var logout = document.getElementById("logout");
+
+if (logout) {
+  logout.addEventListener("click", function (e) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post("/logout").then(function (res) {
+      if (res.status === 200) {
+        window.location.href = res.request.responseURL;
+      }
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  });
+} // add-to-cart
 
 
 var buttons = document.querySelectorAll(".home__addToCart");
@@ -1873,14 +1888,14 @@ var updateCart = function updateCart(pizza) {
     cartCounter.textContent = res.data.totalQty;
     new (noty__WEBPACK_IMPORTED_MODULE_1___default())({
       type: "success",
-      text: 'Item added to cart!',
+      text: "Item added to cart!",
       timeout: 1000,
       progressBar: false
     }).show();
   })["catch"](function (err) {
     new (noty__WEBPACK_IMPORTED_MODULE_1___default())({
       type: "error",
-      text: 'Something went wrong!!',
+      text: "Something went wrong!!",
       timeout: 2000,
       progressBar: false
     }).show();
@@ -1891,7 +1906,6 @@ var updateCart = function updateCart(pizza) {
 buttons.forEach(function (btn) {
   btn.addEventListener("click", function (e) {
     var pizza = JSON.parse(btn.dataset.pizza);
-    console.log(btn.dataset.pizza);
     updateCart(pizza);
   });
 });

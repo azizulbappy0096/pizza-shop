@@ -1,12 +1,14 @@
 const authValidator = require("../validator/authValidator");
 const bcrypt = require("bcryptjs");
 const UserModel = require("../../models/user");
+const passport = require("passport");
+const axios = require("axios")
 
 const authController = {
-  register: async (req, res) => {
+  register: async (req, res, next) => {
     const { username, email, password } = req.body;
     const { error, success } = await authValidator.register(req.body);
- 
+
     if (error) {
       req.flash("error", error);
       req.flash("email", email);
@@ -22,16 +24,51 @@ const authController = {
         email,
         password: hashedPassword,
       });
-      await newUser.save();
-      res.redirect("/");
+      const savedUser = await newUser.save();
+      req.login(savedUser, (err) => {
+        if(err) {
+          return next(err)
+        }
+        res.redirect("/")
+      })
+      
+      
     } catch (err) {
-        req.flash("error", "Something went wrong!");
-        req.flash("email", email);
-        req.flash("username", username);
-        res.redirect("/register");
-        // throw new Error(err);  development
+      req.flash("error", "Something went wrong!");
+      req.flash("email", email);
+      req.flash("username", username);
+      res.redirect("/register");
+      // throw new Error(err);  development
     }
   },
+  login: (req, res, next) => {
+    // passport.authenticate("local", (err, user, info) => {
+    //   if(err) {
+    //     req.flash("error", info.message)
+    //     return next(err)
+    //   }else if(!user) {
+    //     req.flash("error", info.message)
+    //     return res.redirect("/login")
+    //   }
+
+    //   req.login(user, (err) => {
+    //     if(err) {
+    //     return next(err)
+    //     }
+    //     return res.redirect("/")
+    //   })
+    // })(req, res, next)
+    passport.authenticate("local", {
+      successRedirect: "/",
+      failureRedirect: "/login",
+      failureFlash: true,
+    })(req, res, next);
+  },
+
+  logout: (req, res) => {
+    req.logout();
+    res.redirect("/login")
+  }
 };
 
 module.exports = authController;

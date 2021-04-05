@@ -361,7 +361,7 @@ main {
   outline: none;
 }
 
-.cart {
+.cart, .orders {
   background-color: #f9fafb;
 }
 
@@ -381,4 +381,8 @@ main {
 .noty_theme__mint {
   border-radius: 50px !important;
   padding-left: 8px !important;
+}
+
+.orderId {
+  color: #fe5f1e;
 }
