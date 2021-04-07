@@ -5,6 +5,9 @@ import Noty from "noty";
 // admin modules
 import { getAdminOrders } from "./admin/admin";
 
+// socket-client
+import { io } from "socket.io-client"
+
 // hamburger menu
 let isOn = false;
 let hamMenu = document.getElementById("ham-menu");
@@ -86,3 +89,45 @@ const adminTableBody = document.getElementById("adminTableBody")
 if(adminTableBody) {
   getAdminOrders()
 }
+
+
+// single order page
+const fetchOrder = document.getElementById("getOrder")
+const allStatus = document.querySelectorAll(".order_status")
+
+const updateStatus = (order) => {
+  const updatedTime = document.createElement("small")
+  const currentStatus = order.status;
+  let moveForward = true;
+  allStatus.forEach(status => {
+    if(moveForward) {
+      if(status.dataset.status === currentStatus) {
+        moveForward = false
+        status.classList.add("status_current")
+
+        // set previous status updated time
+        const prevElem = status.previousElementSibling
+        updatedTime.innerHTML = new Date(order.updatedAt).toLocaleTimeString()
+        prevElem.classList.add("flex", "justify-between", "items-center")
+        prevElem.appendChild(updatedTime)
+      }else {
+        status.classList.add("status_complete")
+      }
+    }
+  })
+}
+
+if(fetchOrder) {
+  let parseData = JSON.parse(fetchOrder.value)
+  updateStatus(parseData)
+}
+
+// socket
+
+const socket = io();
+
+if(fetchOrder) {
+  let parseData = JSON.parse(fetchOrder.value)
+  socket.emit("join", `order_${parseData._id}`)
+}
+

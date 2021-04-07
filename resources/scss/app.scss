@@ -115,7 +115,9 @@ main {
   }
 }
 
-.cart, .orders {
+.cart,
+.orders,
+.singleOrder {
   background-color: $cart-background;
 }
 
@@ -133,10 +135,137 @@ main {
 }
 
 .noty_theme__mint {
-  border-radius: 50px!important;
-  padding-left: 8px!important;
+  border-radius: 50px !important;
+  padding-left: 8px !important;
 }
 
 .orderId {
   color: $primary;
+}
+
+// single order page
+.singleOrder_status {
+  ul {
+    li {
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 75px;
+        width: 2px;
+        height: 100%;
+        background: black;
+        margin-top: 10px;
+        transform: translateX(-50%);
+      }
+
+      &:last-child::before {
+        content: none;
+      }
+
+      span {
+        position: relative;
+        padding-left: 100px;
+        &::after {
+          content: "";
+          height: 10px;
+          width: 10px;
+          background-color: black;
+          position: absolute;
+          top: 50%;
+          left: 70px;
+          transform: translateY(-50%);
+          border-radius: 50%;
+          -webkit-box-shadow: 0px 0px 0px 6px $cart-background;
+          -moz-box-shadow: 0px 0px 0px 6px $cart-background;
+          box-shadow: 0px 0px 0px 6px $cart-background;
+        }
+
+        &::before {
+          font-family: "Line Awesome Free";
+          font-size: 40px;
+          font-weight: 600;
+          position: absolute;
+          color: inherit;
+          top: 50%;
+          left: 0;
+          transform: translateY(-50%);
+        }
+      }
+    }
+  }
+}
+
+// icons
+.singleOrder_status ul li {
+  &:nth-child(1) span::before {
+    content: "\f46c";
+  }
+
+  &:nth-child(2) span::before {
+    content: "\f818";
+  }
+
+  &:nth-child(3) span::before {
+    content: "\f0d1";
+  }
+
+  &:nth-child(4) span::before {
+    content: "\f560";
+  }
+}
+
+// completed and current status
+.status_complete {
+  color: grey;
+  &::before {
+    background-color: grey !important;
+  }
+
+  span {
+    color: inherit;
+
+    &::after {
+      background-color: grey !important;
+    }
+  }
+
+  small {
+    color: inherit;
+  }
+}
+
+.status_current {
+  color: $primary;
+  span {
+    color: inherit;
+
+    &::after {
+      background-color: $primary !important;
+
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 75px;
+    width: 2px;
+    height: 0;
+    margin-top: 10px;
+    transform: translateX(-50%);
+    animation: loop 3s cubic-bezier(.17,.67,.83,.67) 0s infinite;
+  }
+
+  &:last-child::after {
+    content: none;
+  }
+
+  @keyframes loop {
+    0% {height: 0;background-color: $primary;}
+    100% {height: 100%;background-color: $primary;}
+  }
 }

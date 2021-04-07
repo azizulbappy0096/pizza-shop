@@ -45,7 +45,11 @@ router.post("/cart/update", (req, res) => {
 router.get("/customer/orders", auth, orderController.orders);
 router.post("/customer/orders", orderController.postOrders);
 
+// single order page
+router.get("/customer/order/:id", auth, orderController.singleOrder)
+
 // admin
 router.get("/admin/orders", admin, adminController.adminOrders)
+router.post("/admin/orders/update", admin, adminController.adminOrderStatus)
 
 module.exports = router;

@@ -23,7 +23,7 @@
               <% orders.map(order => { %>
                 <tr>
                   <td class="border border-gray-300 py-2 px-3 orderId break-words"> 
-                    <a href="/"> <%= order._id %> </a>  
+                    <a href="/customer/order/<%= order._id %>"> <%= order._id %> </a>  
                   </td>
                   <td class="border border-gray-300 py-2 px-3 break-words"><%= order.address %></td>
                   <td class="border border-gray-300 py-2 px-3 break-words"><%= new Date(order.createdAt).toLocaleTimeString() %></td>

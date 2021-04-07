@@ -1,5 +1,6 @@
 // import modules //
 const express = require("express");
+const http = require("http")
 require("dotenv").config();
 const ejs = require("ejs");
 const expressLayout = require("express-ejs-layouts");
@@ -9,10 +10,13 @@ const session = require("express-session");
 const flash = require("express-flash")
 const MongoDBStore = require("connect-mongo");
 const passport = require("passport");
+const Emitter = require("events")
 
 // init
 const app = express();
 const PORT = process.env.PORT || 3000;
+const server = http.createServer(app)
+const io = require("socket.io")(server)
 mongoose.connect(
   process.env.MONGOOSE__URL,
   {
@@ -25,8 +29,6 @@ mongoose.connect(
     console.log("DB connected");
   }
 );
-
-
 
 // session store
 const mongoStore = MongoDBStore.create({
@@ -47,6 +49,10 @@ app.use(session({
 require("./app/config/passport-local")(passport)
 app.use(passport.initialize())
 app.use(passport.session())
+
+// set global
+const eventEmitter = new Emitter()
+app.set("eventEmitter", eventEmitter)
 
 // middlewares
 app.use(express.static("public"));
@@ -73,6 +79,23 @@ const apiRouter = require("./routes/api");
 app.use("/api", apiRouter);
 
 // listen
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log("Listening on " + PORT);
 });
+
+// socket
+io.on("connect", (socket) => {
+  console.log("A user connected")
+  socket.on("join", orderId => {
+    socket.join(orderId)
+  })
+
+  socket.on("disconnect", reason => {
+    console.log(reason)
+    console.log("A user disconnect")
+  })
+})
+
+eventEmitter.on("on", data => {
+  console.log("emitter", data)
+})
