@@ -99,6 +99,16 @@ const updateStatus = (order) => {
   const updatedTime = document.createElement("small")
   const currentStatus = order.status;
   let moveForward = true;
+
+  // remove status class
+  allStatus.forEach(status => {
+    status.classList.remove("status_current")
+    status.classList.remove("status_complete")
+    status.children[1] ? status.children[1].remove() : null
+    
+  })
+
+  // modify status class
   allStatus.forEach(status => {
     if(moveForward) {
       if(status.dataset.status === currentStatus) {
@@ -131,3 +141,12 @@ if(fetchOrder) {
   socket.emit("join", `order_${parseData._id}`)
 }
 
+socket.on("updateStatus", order => {
+  new Noty({
+    type: "success",
+    text: "Status updated!!",
+    timeout: 1000,
+    progressBar: false,
+  }).show();
+  updateStatus(order)
+})

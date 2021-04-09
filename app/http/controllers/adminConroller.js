@@ -1,5 +1,6 @@
 const OrderModel = require("../../models/order");
 
+
 const adminController = {
     adminOrders: async (req, res) => {
         try{
@@ -17,19 +18,22 @@ const adminController = {
     adminOrderStatus: async (req, res) => {
         const orderStatus = req.body.orderStatus
         const orderId = req.body.orderId
-        console.log(req.body)
+       
         try {
-            const updatedOrder = await OrderModel.updateOne({ _id: orderId }, { status: orderStatus }, { runValidators: true });
+            const updatedOrder = await OrderModel.findOneAndUpdate({ _id: orderId }, { status: orderStatus }, { runValidators: true, new: true, useFindAndModify: false });
             req.flash("success", "Order status updated")
-
+            
+           
             // emitter
             const eventEmitter = req.app.get("eventEmitter")
-            eventEmitter.emit("on", { done: "done" })
-            res.redirect("/admin/orders")
+            eventEmitter.emit("updateOrder", updatedOrder)
+            res.send(updatedOrder)
+            
         }catch(err) {
             console.log(err)
             req.flash("error", "Something went wrong")
-            res.redirect("/admin/orders")
+            res.send("error")
+            
         }
     }
 }

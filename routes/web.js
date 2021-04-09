@@ -9,6 +9,7 @@ const adminController = require("../app/http/controllers/adminConroller");
 
 // middlewares
 const { guest, auth, admin } = require("../app/http/middlewares/guest");
+const multer = require("multer")
 
 // home
 router.get("/", async (req, res) => {
@@ -50,6 +51,6 @@ router.get("/customer/order/:id", auth, orderController.singleOrder)
 
 // admin
 router.get("/admin/orders", admin, adminController.adminOrders)
-router.post("/admin/orders/update", admin, adminController.adminOrderStatus)
+router.post("/admin/orders/update", [multer().none(), admin], adminController.adminOrderStatus)
 
 module.exports = router;

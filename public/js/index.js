@@ -1847,12 +1847,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! noty */ "./node_modules/noty/lib/noty.js");
+/* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(noty__WEBPACK_IMPORTED_MODULE_1__);
 // modules
+
 
 
 var build_table = function build_table(data) {
   return data.map(function (order) {
-    return "\n        <tr>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\"> \n          <h4> ".concat(order._id, " </h4>  \n          <ul class=\"text-sm\">\n              ").concat(renderItems(order.items), "\n          </ul>\n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">\n            <ul class=\"text-sm\">\n                <li> Name: ").concat(order.customerId.username, " </li>\n                <li> Phone: ").concat(order.phone, " </li>\n            </ul>\n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">").concat(order.address, "</td>\n        <td class=\"border border-gray-300 py-2 px-3\">\n        <div class=\"inline-block relative \">\n        <form action=\"/admin/orders/update\" method=\"POST\">\n        <input hidden name=\"orderId\" value=").concat(order._id, " />\n            <select name=\"orderStatus\" class=\"block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline\" onchange=\"this.form.submit()\" >\n            <option ").concat(order.status === "order_placed" ? "selected" : "", " value=\"order_placed\"> Order Placed </option>\n            <option ").concat(order.status === "processing" ? "selected" : "", " value=\"processing\" > Processing </option>\n            <option ").concat(order.status === "delivering" ? "selected" : "", " value=\"delivering\" > Delivering </option>\n            <option ").concat(order.status === "completed" ? "selected" : "", " value=\"completed\" > Completed </option> \n            </select>\n  <div class=\"pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700\">\n    <svg class=\"fill-current h-4 w-4\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z\"/></svg>\n  </div>\n  </form>\n</div>\n\n      \n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">").concat(new Date(order.createdAt).toLocaleTimeString(), "</td>\n      </tr>\n        ");
+    return "\n        <tr>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\"> \n          <h4> ".concat(order._id, " </h4>  \n          <ul class=\"text-sm\">\n              ").concat(renderItems(order.items), "\n          </ul>\n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">\n            <ul class=\"text-sm\">\n                <li> Name: ").concat(order.customerId.username, " </li>\n                <li> Phone: ").concat(order.phone, " </li>\n            </ul>\n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">").concat(order.address, "</td>\n        <td class=\"border border-gray-300 py-2 px-3\">\n        <div class=\"inline-block relative \">\n          <form id=\"adminForm\">\n              <input hidden name=\"orderId\" value=").concat(order._id, " />\n              <select id=\"adminFormSelect\" name=\"orderStatus\" class=\"block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline\">\n              <option ").concat(order.status === "order_placed" ? "selected" : "", " value=\"order_placed\"> Order Placed </option>\n              <option ").concat(order.status === "processing" ? "selected" : "", " value=\"processing\" > Processing </option>\n              <option ").concat(order.status === "delivering" ? "selected" : "", " value=\"delivering\" > Delivering </option>\n              <option ").concat(order.status === "completed" ? "selected" : "", " value=\"completed\" > Completed </option> \n              </select>\n                <div class=\"pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700\">\n                  <svg class=\"fill-current h-4 w-4\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z\"/></svg>\n                </div>\n            </form>\n          </div>\n\n      \n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">").concat(new Date(order.createdAt).toLocaleTimeString(), "</td>\n      </tr>\n        ");
   });
 };
 
@@ -1875,11 +1878,41 @@ var getAdminOrders = function getAdminOrders() {
       "x-requested-with": "XMLHttpRequest"
     }
   }).then(function (res) {
-    console.log(res);
     mockup += build_table(res.data).join("");
     adminTableBody.innerHTML = mockup;
+    var adminForms = document.querySelectorAll("#adminForm");
+    var adminFormSelects = document.querySelectorAll("#adminFormSelect");
+    adminForms.forEach(function (form, index) {
+      adminFormSelects[index].addEventListener("change", function (e) {
+        e.preventDefault();
+        var formData = new FormData(form);
+        updateAdminOrder(formData);
+      });
+    });
   })["catch"](function (err) {
     console.log(err);
+  });
+};
+
+var updateAdminOrder = function updateAdminOrder(formData) {
+  axios__WEBPACK_IMPORTED_MODULE_0___default().post("/admin/orders/update", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  }).then(function (res) {
+    new (noty__WEBPACK_IMPORTED_MODULE_1___default())({
+      type: "success",
+      text: "Order updated!",
+      timeout: 1000,
+      progressBar: false
+    }).show();
+  })["catch"](function (err) {
+    new (noty__WEBPACK_IMPORTED_MODULE_1___default())({
+      type: "error",
+      text: "Order didn't update, Something went wrong!!",
+      timeout: 1000,
+      progressBar: false
+    }).show();
   });
 };
 
@@ -1989,7 +2022,14 @@ var allStatus = document.querySelectorAll(".order_status");
 var updateStatus = function updateStatus(order) {
   var updatedTime = document.createElement("small");
   var currentStatus = order.status;
-  var moveForward = true;
+  var moveForward = true; // remove status class
+
+  allStatus.forEach(function (status) {
+    status.classList.remove("status_current");
+    status.classList.remove("status_complete");
+    status.children[1] ? status.children[1].remove() : null;
+  }); // modify status class
+
   allStatus.forEach(function (status) {
     if (moveForward) {
       if (status.dataset.status === currentStatus) {
@@ -2020,6 +2060,16 @@ if (fetchOrder) {
 
   socket.emit("join", "order_".concat(_parseData._id));
 }
+
+socket.on("updateStatus", function (order) {
+  new (noty__WEBPACK_IMPORTED_MODULE_1___default())({
+    type: "success",
+    text: "Status updated!!",
+    timeout: 1000,
+    progressBar: false
+  }).show();
+  updateStatus(order);
+});
 
 /***/ }),
 
