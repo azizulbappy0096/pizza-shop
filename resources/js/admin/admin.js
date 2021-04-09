@@ -6,23 +6,23 @@ const tableMockup = (data) => {
   return data.map((order) => {
     return `
         <tr>
-        <td class="border border-gray-300 py-2 px-3 break-words"> 
-          <h4> ${order._id} </h4>  
+        <td class="border border-gray-300 py-2 px-3 break-words text-sm"> 
+          <h4> #${order._id} </h4>  
           <ul class="text-sm">
               ${renderItems(order.items)}
           </ul>
         </td>
-        <td class="border border-gray-300 py-2 px-3 break-words">
+        <td class="border border-gray-300 py-2 px-3 break-words text-sm">
             <ul class="text-sm">
                 <li> Name: ${order.customerId.username} </li>
                 <li> Phone: ${order.phone} </li>
             </ul>
         </td>
-        <td class="border border-gray-300 py-2 px-3 break-words">${
+        <td class="border border-gray-300 py-2 px-3 break-words text-sm">${
           order.address
         }</td>
-        <td class="border border-gray-300 py-2 px-3 relative">
-        <div class="inline-block relative ">
+        <td class="border border-gray-300 py-2 px-3 relative text-sm">
+        <div class="inline-block relative w-max">
           <form id="adminForm">
               <input hidden name="orderId" value=${order._id} />
               <select id="adminFormSelect" name="orderStatus" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
@@ -47,7 +47,7 @@ const tableMockup = (data) => {
 
       
         </td>
-        <td class="border border-gray-300 py-2 px-3 break-words">${new Date(
+        <td class="border border-gray-300 py-2 px-3 break-words text-sm">${new Date(
           order.createdAt
         ).toLocaleTimeString()}</td>
       </tr>

@@ -45,24 +45,27 @@ main {
 }
 
 .hamburger-menu ul {
-  li:last-child {
-    a {
+  a:last-child {
+    li {
       background-color: $primary;
       border-radius: 20px;
       padding: 4px 12px;
       padding-left: 20px;
-    }
-  }
 
-  li:hover {
-    background-color: #e86d3c;
-    cursor: pointer;
-    transition: all 0.25s linear;
-    &:last-child {
-      a {
+      &:hover {
         transition: all 0.25s linear;
         background-color: #e86d3c;
       }
+    }
+  }
+
+  a:hover {
+    // background-color: #e86d3c;
+    border-bottom: 1px solid #e5e7eb;
+    cursor: pointer;
+    transition: all 0.25s linear;
+    &:last-child {
+      border-bottom: none;
     }
   }
 }
@@ -95,6 +98,8 @@ main {
 
 .home__menu {
   .home__item {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
     span {
       background-color: #efefefa8;
     }
@@ -252,9 +257,10 @@ main {
   &::after {
     content: "";
     position: absolute;
-    top: 12px;
-    left: 75px;
-    width: 2px;
+    top: 10px;
+    left: 74.5px;
+    width: 3px;
+    border-radius: 2px;
     height: 0;
     margin-top: 10px;
     transform: translateX(-50%);
@@ -269,4 +275,10 @@ main {
     0% {height: 0;background-color: $primary;}
     100% {height: 100%;background-color: $primary;}
   }
+}
+
+table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
 }

@@ -1,17 +1,19 @@
 <main class="singleOrder">
-    <section class="container md:w-2/3 px-2 md:mx-auto py-8" >
+    <section class="container md:w-2/3 px-2 md:mx-auto pt-8 pb-2" >
         <div class="flex justify-between items-center">
             <h2 class="font-bold py-4"> Track Delivery Status  </h2>
-            <small class="bg-white rounded p-2 text-green-700"> <%= order._id %> </small>
+            <small class="bg-white rounded p-2 text-green-700 hidden md:block"> <%= order._id %> </small>
         </div>
-        <div class="singleOrder_status mt-4">
+
+        <div class="singleOrder_status mt-4 px-2">
             <input id="getOrder" type="hidden" value="<%= JSON.stringify(order) %>" >
             <ul>
-                <li data-status="order_placed" class="order_status pb-16"> <span> Order Placed </span> </li>
-                <li data-status="processing" class="order_status pb-16"> <span> Preparing </span> </li>
-                <li data-status="delivering" class="order_status pb-16"> <span> Out for Delivery </span> </li>
-                <li data-status="completed" class="order_status pb-16"> <span> Completed </span> </li>
+                <li data-status="order_placed" class="order_status pb-20 md:pb-16 text-sm md:text-base"> <span> Order Placed </span> </li>
+                <li data-status="processing" class="order_status pb-20 md:pb-16 text-sm md:text-base"> <span> Preparing </span> </li>
+                <li data-status="delivering" class="order_status pb-20 md:pb-16 text-sm md:text-base"> <span> Out for Delivery </span> </li>
+                <li data-status="completed" class="order_status pb-8 text-sm md:text-base"> <span> Completed </span> </li>
             </ul>
         </div>
+        <small class="bg-white rounded p-2 text-green-700 block md:hidden mb-2 text-right"> Order id: <%= order._id %> </small>
     </section>
 </main>

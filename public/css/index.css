@@ -308,20 +308,23 @@ main {
   border-top: 0.25px solid #efeeee;
 }
 
-.hamburger-menu ul li:last-child a {
+.hamburger-menu ul a:last-child li {
   background-color: #fe5f1e;
   border-radius: 20px;
   padding: 4px 12px;
   padding-left: 20px;
 }
-.hamburger-menu ul li:hover {
+.hamburger-menu ul a:last-child li:hover {
+  transition: all 0.25s linear;
   background-color: #e86d3c;
+}
+.hamburger-menu ul a:hover {
+  border-bottom: 1px solid #e5e7eb;
   cursor: pointer;
   transition: all 0.25s linear;
 }
-.hamburger-menu ul li:hover:last-child a {
-  transition: all 0.25s linear;
-  background-color: #e86d3c;
+.hamburger-menu ul a:hover:last-child {
+  border-bottom: none;
 }
 
 .home__hero {
@@ -345,6 +348,10 @@ main {
      object-fit: contain;
 }
 
+.home__menu .home__item {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
 .home__menu .home__item span {
   background-color: #efefefa8;
 }
@@ -476,9 +483,10 @@ main {
 .status_current::after {
   content: "";
   position: absolute;
-  top: 12px;
-  left: 75px;
-  width: 2px;
+  top: 10px;
+  left: 74.5px;
+  width: 3px;
+  border-radius: 2px;
   height: 0;
   margin-top: 10px;
   transform: translateX(-50%);
@@ -507,4 +515,10 @@ main {
     height: 100%;
     background-color: #fe5f1e;
   }
+}
+
+table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
 }
