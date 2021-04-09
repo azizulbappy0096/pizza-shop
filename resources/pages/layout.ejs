@@ -32,8 +32,8 @@
         </section>
         <section class="home__nav--right hidden md:block">
           <ul class="flex items-center">
-            <li class="ml-6"><a href=""> Menu </a></li>
-            <li class="ml-6"><a href=""> Offers </a></li>
+            <li class="ml-6"><a href="#menuId"> Menu </a></li>
+            <li class="ml-6"><a href="#offers"> Offers </a></li>
             <% if(user) { %>
             <li class="ml-6"><a href="/customer/orders"> Orders </a></li>
             <li class="ml-6">
@@ -63,8 +63,8 @@
       </nav>
       <section id="ham-list" class="hamburger-menu mt-6 hidden relative z-10">
         <ul class="flex flex-col">
-          <a href=""><li class="pl-6 py-3">Menu</li></a>
-          <a href=""><li class="pl-6 py-3">Offers</li></a>
+          <a href="#menuId"><li class="pl-6 py-3">Menu</li></a>
+          <a href="#offers"><li class="pl-6 py-3">Offers</li></a>
           <% if(user) { %>
           <a href="/customer/orders"><li class="pl-6 py-3">Orders</li></a>
           <a style="cursor: pointer"> 
