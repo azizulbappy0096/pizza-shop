@@ -1853,9 +1853,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var build_table = function build_table(data) {
+var tableMockup = function tableMockup(data) {
   return data.map(function (order) {
-    return "\n        <tr>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\"> \n          <h4> ".concat(order._id, " </h4>  \n          <ul class=\"text-sm\">\n              ").concat(renderItems(order.items), "\n          </ul>\n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">\n            <ul class=\"text-sm\">\n                <li> Name: ").concat(order.customerId.username, " </li>\n                <li> Phone: ").concat(order.phone, " </li>\n            </ul>\n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">").concat(order.address, "</td>\n        <td class=\"border border-gray-300 py-2 px-3\">\n        <div class=\"inline-block relative \">\n          <form id=\"adminForm\">\n              <input hidden name=\"orderId\" value=").concat(order._id, " />\n              <select id=\"adminFormSelect\" name=\"orderStatus\" class=\"block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline\">\n              <option ").concat(order.status === "order_placed" ? "selected" : "", " value=\"order_placed\"> Order Placed </option>\n              <option ").concat(order.status === "processing" ? "selected" : "", " value=\"processing\" > Processing </option>\n              <option ").concat(order.status === "delivering" ? "selected" : "", " value=\"delivering\" > Delivering </option>\n              <option ").concat(order.status === "completed" ? "selected" : "", " value=\"completed\" > Completed </option> \n              </select>\n                <div class=\"pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700\">\n                  <svg class=\"fill-current h-4 w-4\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z\"/></svg>\n                </div>\n            </form>\n          </div>\n\n      \n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">").concat(new Date(order.createdAt).toLocaleTimeString(), "</td>\n      </tr>\n        ");
+    return "\n        <tr>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\"> \n          <h4> ".concat(order._id, " </h4>  \n          <ul class=\"text-sm\">\n              ").concat(renderItems(order.items), "\n          </ul>\n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">\n            <ul class=\"text-sm\">\n                <li> Name: ").concat(order.customerId.username, " </li>\n                <li> Phone: ").concat(order.phone, " </li>\n            </ul>\n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">").concat(order.address, "</td>\n        <td class=\"border border-gray-300 py-2 px-3 relative\">\n        <div class=\"inline-block relative \">\n          <form id=\"adminForm\">\n              <input hidden name=\"orderId\" value=").concat(order._id, " />\n              <select id=\"adminFormSelect\" name=\"orderStatus\" class=\"block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline\">\n              <option ").concat(order.status === "order_placed" ? "selected" : "", " value=\"order_placed\"> Order Placed </option>\n              <option ").concat(order.status === "processing" ? "selected" : "", " value=\"processing\" > Processing </option>\n              <option ").concat(order.status === "delivering" ? "selected" : "", " value=\"delivering\" > Delivering </option>\n              <option ").concat(order.status === "completed" ? "selected" : "", " value=\"completed\" > Completed </option> \n              </select>\n                <div class=\"pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700\">\n                  <svg class=\"fill-current h-4 w-4\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z\"/></svg>\n                </div>\n            </form>\n          </div>\n\n      \n        </td>\n        <td class=\"border border-gray-300 py-2 px-3 break-words\">").concat(new Date(order.createdAt).toLocaleTimeString(), "</td>\n      </tr>\n        ");
   });
 };
 
@@ -1870,24 +1870,39 @@ var renderItems = function renderItems(items) {
   return mockup;
 };
 
-var getAdminOrders = function getAdminOrders() {
+var renderTable = function renderTable(data) {
   var adminTableBody = document.getElementById("adminTableBody");
-  var mockup = "";
+  var mockup = tableMockup(data).join("");
+  adminTableBody.innerHTML = mockup;
+  var adminForms = document.querySelectorAll("#adminForm");
+  var adminFormSelects = document.querySelectorAll("#adminFormSelect");
+  adminForms.forEach(function (form, index) {
+    adminFormSelects[index].addEventListener("change", function (e) {
+      e.preventDefault();
+      var formData = new FormData(form);
+      updateAdminOrder(formData);
+    });
+  });
+};
+
+var getAdminOrders = function getAdminOrders(socket) {
   axios__WEBPACK_IMPORTED_MODULE_0___default().get("/admin/orders", {
     headers: {
       "x-requested-with": "XMLHttpRequest"
     }
   }).then(function (res) {
-    mockup += build_table(res.data).join("");
-    adminTableBody.innerHTML = mockup;
-    var adminForms = document.querySelectorAll("#adminForm");
-    var adminFormSelects = document.querySelectorAll("#adminFormSelect");
-    adminForms.forEach(function (form, index) {
-      adminFormSelects[index].addEventListener("change", function (e) {
-        e.preventDefault();
-        var formData = new FormData(form);
-        updateAdminOrder(formData);
-      });
+    var allOrders = res.data;
+    renderTable(allOrders); // socket
+
+    socket.on("updateAdminOrders", function (order) {
+      new (noty__WEBPACK_IMPORTED_MODULE_1___default())({
+        type: "success",
+        text: "Got a new order!",
+        timeout: 1000,
+        progressBar: false
+      }).show();
+      allOrders.unshift(order);
+      renderTable(allOrders);
     });
   })["catch"](function (err) {
     console.log(err);
@@ -2006,13 +2021,6 @@ if (successMsg) {
   setTimeout(function () {
     successMsg.remove();
   }, 2000);
-} // admin order page
-
-
-var adminTableBody = document.getElementById("adminTableBody");
-
-if (adminTableBody) {
-  (0,_admin_admin__WEBPACK_IMPORTED_MODULE_2__.getAdminOrders)();
 } // single order page
 
 
@@ -2053,7 +2061,21 @@ if (fetchOrder) {
 } // socket
 
 
-var socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_3__.io)();
+var socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_3__.io)(); // admin room
+
+var pathName = window.location.pathname;
+
+if (pathName.includes("admin")) {
+  console.log("path");
+  socket.emit("join", "adminRoom");
+} // admin order page
+
+
+var adminTableBody = document.getElementById("adminTableBody");
+
+if (adminTableBody) {
+  (0,_admin_admin__WEBPACK_IMPORTED_MODULE_2__.getAdminOrders)(socket);
+}
 
 if (fetchOrder) {
   var _parseData = JSON.parse(fetchOrder.value);

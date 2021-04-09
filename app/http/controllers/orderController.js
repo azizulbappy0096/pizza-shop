@@ -35,6 +35,11 @@ const orderController = {
 
       const savedOrder = await newOrder.save();
       req.session.cart = null;
+      
+      // emitter
+      const eventEmitter = req.app.get("eventEmitter");
+      eventEmitter.emit("updateAdminOrders", await savedOrder.populate("customerId").execPopulate());
+
       req.flash("success", "Order placed successfully");
       res.redirect("/customer/orders");
     } catch (err) {

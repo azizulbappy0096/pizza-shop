@@ -84,13 +84,6 @@ if(successMsg) {
 }
 
 
-// admin order page
-const adminTableBody = document.getElementById("adminTableBody")
-if(adminTableBody) {
-  getAdminOrders()
-}
-
-
 // single order page
 const fetchOrder = document.getElementById("getOrder")
 const allStatus = document.querySelectorAll(".order_status")
@@ -133,8 +126,20 @@ if(fetchOrder) {
 }
 
 // socket
-
 const socket = io();
+
+// admin room
+const pathName = window.location.pathname;
+if(pathName.includes("admin")) {
+  console.log("path")
+  socket.emit("join", "adminRoom")
+}
+
+// admin order page
+const adminTableBody = document.getElementById("adminTableBody")
+if(adminTableBody) {
+  getAdminOrders(socket)
+}
 
 if(fetchOrder) {
   let parseData = JSON.parse(fetchOrder.value)

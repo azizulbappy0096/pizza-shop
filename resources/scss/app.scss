@@ -13,6 +13,7 @@ main {
 .home__header {
   background-color: $pure;
   border-bottom: 1px solid $border-bottom;
+  z-index: 100;
 
   nav {
     .home__nav--right ul {

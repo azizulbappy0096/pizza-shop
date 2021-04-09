@@ -1,8 +1,8 @@
 // modules
 import axios from "axios";
-import Noty from "noty"
+import Noty from "noty";
 
-const build_table = (data) => {
+const tableMockup = (data) => {
   return data.map((order) => {
     return `
         <tr>
@@ -21,7 +21,7 @@ const build_table = (data) => {
         <td class="border border-gray-300 py-2 px-3 break-words">${
           order.address
         }</td>
-        <td class="border border-gray-300 py-2 px-3">
+        <td class="border border-gray-300 py-2 px-3 relative">
         <div class="inline-block relative ">
           <form id="adminForm">
               <input hidden name="orderId" value=${order._id} />
@@ -63,10 +63,24 @@ const renderItems = (items) => {
   return mockup;
 };
 
-export const getAdminOrders = () => {
+const renderTable = (data) => {
   const adminTableBody = document.getElementById("adminTableBody");
-  let mockup = "";
+  let mockup = tableMockup(data).join("");
+  adminTableBody.innerHTML = mockup;
 
+  const adminForms = document.querySelectorAll("#adminForm");
+  const adminFormSelects = document.querySelectorAll("#adminFormSelect");
+
+  adminForms.forEach((form, index) => {
+    adminFormSelects[index].addEventListener("change", (e) => {
+      e.preventDefault();
+      let formData = new FormData(form);
+      updateAdminOrder(formData);
+    });
+  });
+};
+
+export const getAdminOrders = (socket) => {
   axios
     .get("/admin/orders", {
       headers: {
@@ -74,18 +88,19 @@ export const getAdminOrders = () => {
       },
     })
     .then((res) => {
-      mockup += build_table(res.data).join("");
-      adminTableBody.innerHTML = mockup;
+      let allOrders = res.data;
+      renderTable(allOrders);
 
-      const adminForms = document.querySelectorAll("#adminForm");
-      const adminFormSelects = document.querySelectorAll("#adminFormSelect");
-
-      adminForms.forEach((form, index) => {
-        adminFormSelects[index].addEventListener("change", (e) => {
-          e.preventDefault();
-          let formData = new FormData(form);
-          updateAdminOrder(formData);
-        });
+      // socket
+      socket.on("updateAdminOrders", (order) => {
+        new Noty({
+          type: "success",
+          text: "Got a new order!",
+          timeout: 1000,
+          progressBar: false,
+        }).show();
+        allOrders.unshift(order);
+        renderTable(allOrders);
       });
     })
     .catch((err) => {

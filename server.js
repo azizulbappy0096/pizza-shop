@@ -88,8 +88,8 @@ server.listen(PORT, () => {
 // socket
 io.on("connect", (socket) => {
   console.log("A user connected")
-  socket.on("join", orderId => {
-    socket.join(orderId)
+  socket.on("join", roomId => {
+    socket.join(roomId)
   })
 
   socket.on("disconnect", reason => {
@@ -100,4 +100,8 @@ io.on("connect", (socket) => {
 
 eventEmitter.on("updateOrder", data => {
   io.to(`order_${data._id}`).emit("updateStatus", data)
+})
+
+eventEmitter.on("updateAdminOrders", data => {
+  io.to("adminRoom").emit("updateAdminOrders", data)
 })
