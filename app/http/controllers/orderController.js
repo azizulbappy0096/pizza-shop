@@ -18,8 +18,10 @@ const orderController = {
   postOrders: async (req, res) => {
     const { phone, address } = req.body;
     console.log(req.body);
+    
     if (!phone.trim() || !address.trim()) {
       req.flash("error", "All field must be filled");
+      console.log("fooooooo")
       return res.redirect("/cart");
     }
 
@@ -39,12 +41,10 @@ const orderController = {
       // emitter
       const eventEmitter = req.app.get("eventEmitter");
       eventEmitter.emit("updateAdminOrders", await savedOrder.populate("customerId").execPopulate());
-
-      req.flash("success", "Order placed successfully");
-      res.redirect("/customer/orders");
+      // send response
+      res.json({message: "Order placed successfully", orderId: savedOrder._id});
     } catch (err) {
-      req.flash("error", "Something went wrong!");
-      res.redirect("/cart");
+      res.json({error: "Something went wrong!"});
     }
   },
   singleOrder: async (req, res) => {

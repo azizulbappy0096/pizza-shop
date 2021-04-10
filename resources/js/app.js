@@ -5,6 +5,9 @@ import Noty from "noty";
 // admin modules
 import { getAdminOrders } from "./admin/admin";
 
+// stripe
+import { initStripe } from "./stripe";
+
 // socket-client
 import { io } from "socket.io-client";
 
@@ -78,13 +81,18 @@ const updateCart = (pizza) => {
     });
 };
 
-buttons.forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    const pizza = JSON.parse(btn.dataset.pizza);
+if (buttons) {
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const pizza = JSON.parse(btn.dataset.pizza);
 
-    updateCart(pizza);
+      updateCart(pizza);
+    });
   });
-});
+}
+
+// place order
+initStripe();
 
 // remove order placed message
 const successMsg = document.getElementById("success-message");

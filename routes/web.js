@@ -44,7 +44,7 @@ router.post("/cart/update", (req, res) => {
 
 // customer orders
 router.get("/customer/orders", auth, orderController.orders);
-router.post("/customer/orders", orderController.postOrders);
+router.post("/customer/orders", multer().none(), orderController.postOrders);
 
 // single order page
 router.get("/customer/order/:id", auth, orderController.singleOrder)
