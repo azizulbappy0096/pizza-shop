@@ -75,9 +75,6 @@ app.set("view engine", "ejs");
 // --- web routes
 const webRouter = require("./routes/web");
 app.use("/", webRouter);
-app.use((req, res) => {
-  res.status(400).send("<h1>404, Page not found!!!</h1>")
-})
 
 // --- api routes
 const apiRouter = require("./routes/api");
