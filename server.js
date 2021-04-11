@@ -12,7 +12,6 @@ const MongoDBStore = require("connect-mongo");
 const passport = require("passport");
 const Emitter = require("events")
 
-
 // init
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -59,7 +58,6 @@ app.set("eventEmitter", eventEmitter)
 app.use(express.static("public"));
 app.use(flash());
 app.use(express.json())
-
 app.use(express.urlencoded({ extended: false }))
 app.use((req, res, next) => {
   res.locals.session = req.session
@@ -108,3 +106,4 @@ eventEmitter.on("updateOrder", data => {
 eventEmitter.on("updateAdminOrders", data => {
   io.to("adminRoom").emit("updateAdminOrders", data)
 })
+

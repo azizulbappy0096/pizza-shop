@@ -5,6 +5,9 @@ import Noty from "noty";
 // admin modules
 import { getAdminOrders } from "./admin/admin";
 
+// stripe
+import { initStripe } from "./stripe";
+
 // socket-client
 import { io } from "socket.io-client";
 
@@ -78,13 +81,18 @@ const updateCart = (pizza) => {
     });
 };
 
-buttons.forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    const pizza = JSON.parse(btn.dataset.pizza);
+if (buttons) {
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const pizza = JSON.parse(btn.dataset.pizza);
 
-    updateCart(pizza);
+      updateCart(pizza);
+    });
   });
-});
+}
+
+// place order
+initStripe();
 
 // remove order placed message
 const successMsg = document.getElementById("success-message");
@@ -119,9 +127,13 @@ const updateStatus = (order) => {
 
         // set previous status updated time
         const prevElem = status.previousElementSibling;
-        updatedTime.innerHTML = new Date(order.updatedAt).toLocaleTimeString();
-        prevElem.classList.add("flex", "justify-between", "items-center");
-        prevElem.appendChild(updatedTime);
+        if (prevElem) {
+          updatedTime.innerHTML = new Date(
+            order.updatedAt
+          ).toLocaleTimeString();
+          prevElem.classList.add("flex", "justify-between", "items-center");
+          prevElem.appendChild(updatedTime);
+        }
       } else {
         status.classList.add("status_complete");
       }
