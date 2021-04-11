@@ -127,9 +127,13 @@ const updateStatus = (order) => {
 
         // set previous status updated time
         const prevElem = status.previousElementSibling;
-        updatedTime.innerHTML = new Date(order.updatedAt).toLocaleTimeString();
-        prevElem.classList.add("flex", "justify-between", "items-center");
-        prevElem.appendChild(updatedTime);
+        if (prevElem) {
+          updatedTime.innerHTML = new Date(
+            order.updatedAt
+          ).toLocaleTimeString();
+          prevElem.classList.add("flex", "justify-between", "items-center");
+          prevElem.appendChild(updatedTime);
+        }
       } else {
         status.classList.add("status_complete");
       }

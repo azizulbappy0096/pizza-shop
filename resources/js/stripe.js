@@ -37,12 +37,18 @@ export const initStripe = async () => {
       stripe
         .createToken(cardElement)
         .then((res) => {
-          formData.append("stripeToken", res.token.id)
-          placeOrderAjax(formData)
+          if(!res.error) {
+            formData.append("stripeToken", res.token.id)
+            placeOrderAjax(formData)
+          }else {
+            new Noty({
+              type: "error",
+              text: res.error.message,
+              timeout: 5000,
+              progressBar: true,
+            }).show();
+          }
         })
-        .catch((err) => {
-          console.log(err);
-        });
     });
   }
 };
@@ -78,24 +84,34 @@ const placeOrderAjax = (formData) => {
       },
     })
     .then((res) => {
-      new Noty({
-        type: "success",
-        text: res.data.message,
-        timeout: 2000,
-        progressBar: false,
-      }).show();
-
-      setTimeout(() => {
-        window.location.href = `/customer/order/${res.data.orderId}`;
-      }, 1000);
+     
+      if(res.status === 201) {
+        new Noty({
+          type: "success",
+          text: res.data.message,
+          timeout: 2000,
+          progressBar: false,
+        }).show();
+  
+        setTimeout(() => {
+          window.location.href = `/customer/order/${res.data.orderId}`;
+        }, 1000);
+      }else {
+        new Noty({
+          type: "error",
+          text: "Something went wrong, please try again",
+          timeout: 5000,
+          progressBar: true,
+        }).show();
+      }
     })
     .catch((err) => {
-      console.log(err);
+      
       new Noty({
         type: "error",
-        text: res.data.error,
-        timeout: 2000,
-        progressBar: false,
+        text: "Something went wrong, please try again",
+        timeout: 5000,
+        progressBar: true,
       }).show();
     });
 };

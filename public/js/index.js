@@ -2217,9 +2217,12 @@ var updateStatus = function updateStatus(order) {
         status.classList.add("status_current"); // set previous status updated time
 
         var prevElem = status.previousElementSibling;
-        updatedTime.innerHTML = new Date(order.updatedAt).toLocaleTimeString();
-        prevElem.classList.add("flex", "justify-between", "items-center");
-        prevElem.appendChild(updatedTime);
+
+        if (prevElem) {
+          updatedTime.innerHTML = new Date(order.updatedAt).toLocaleTimeString();
+          prevElem.classList.add("flex", "justify-between", "items-center");
+          prevElem.appendChild(updatedTime);
+        }
       } else {
         status.classList.add("status_complete");
       }
@@ -2335,10 +2338,17 @@ var initStripe = /*#__PURE__*/function () {
               }
 
               stripe.createToken(cardElement).then(function (res) {
-                formData.append("stripeToken", res.token.id);
-                placeOrderAjax(formData);
-              })["catch"](function (err) {
-                console.log(err);
+                if (!res.error) {
+                  formData.append("stripeToken", res.token.id);
+                  placeOrderAjax(formData);
+                } else {
+                  new (noty__WEBPACK_IMPORTED_MODULE_2___default())({
+                    type: "error",
+                    text: res.error.message,
+                    timeout: 5000,
+                    progressBar: true
+                  }).show();
+                }
               });
             });
 
@@ -2387,22 +2397,30 @@ var placeOrderAjax = function placeOrderAjax(formData) {
       "Content-Type": "multipart/form-data"
     }
   }).then(function (res) {
-    new (noty__WEBPACK_IMPORTED_MODULE_2___default())({
-      type: "success",
-      text: res.data.message,
-      timeout: 2000,
-      progressBar: false
-    }).show();
-    setTimeout(function () {
-      window.location.href = "/customer/order/".concat(res.data.orderId);
-    }, 1000);
+    if (res.status === 201) {
+      new (noty__WEBPACK_IMPORTED_MODULE_2___default())({
+        type: "success",
+        text: res.data.message,
+        timeout: 2000,
+        progressBar: false
+      }).show();
+      setTimeout(function () {
+        window.location.href = "/customer/order/".concat(res.data.orderId);
+      }, 1000);
+    } else {
+      new (noty__WEBPACK_IMPORTED_MODULE_2___default())({
+        type: "error",
+        text: "Something went wrong, please try again",
+        timeout: 5000,
+        progressBar: true
+      }).show();
+    }
   })["catch"](function (err) {
-    console.log(err);
     new (noty__WEBPACK_IMPORTED_MODULE_2___default())({
       type: "error",
-      text: res.data.error,
-      timeout: 2000,
-      progressBar: false
+      text: "Something went wrong, please try again",
+      timeout: 5000,
+      progressBar: true
     }).show();
   });
 };
