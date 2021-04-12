@@ -34,6 +34,7 @@ router.post("/logout", authController.logout);
 
 // cart
 router.get("/cart", (req, res) => {
+  res.setHeader("Cache-Control", "no-store, max-age=0");
   res.render("customer/cart", { title: "Cart" });
 });
 

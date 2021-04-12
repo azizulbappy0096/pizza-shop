@@ -44,9 +44,9 @@ const tableMockup = (data) => {
                 </div>
             </form>
           </div>
-
-      
         </td>
+        <td class="border border-gray-300 py-2 px-3 break-words text-sm">$${order.totalPrice}</td>
+        <td class="border border-gray-300 py-2 px-3 break-words text-sm">${order.paymentStatus ? "Paid" : "Cash on delivery"}</td>
         <td class="border border-gray-300 py-2 px-3 break-words text-sm">${new Date(
           order.createdAt
         ).toLocaleTimeString()}</td>
