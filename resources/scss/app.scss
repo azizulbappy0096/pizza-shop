@@ -2,12 +2,20 @@
 @import "~noty/src/noty.scss";
 @import "~noty/src/themes/mint.scss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   min-height: 100vh;
+  scroll-behavior: smooth;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 main {
-  min-height: calc(100vh - 86px);
+
+  width: 100vw;
 }
 
 .home__header {
@@ -99,7 +107,7 @@ main {
 .home__menu {
   .home__item {
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: 1fr auto auto;
     span {
       background-color: #efefefa8;
     }
@@ -284,10 +292,13 @@ table {
 }
 
 // stripe
-
 .StripeElement {
   background: white;
   padding: 6px 12px;
-  // border-radius: 4px;
   margin-left: auto;
+}
+
+// footer
+footer {
+  border-top: 1px solid #dcdcdc66;
 }

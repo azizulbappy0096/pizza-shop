@@ -1,4 +1,3 @@
-const { response } = require("express");
 const OrderModel = require("../../models/order");
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
@@ -39,7 +38,7 @@ const orderController = {
       });
 
       const savedOrder = await newOrder.save();
-
+      
       // emit remove event
       eventEmitter.on("removeOrder", async () => {
         await OrderModel.deleteOne({ _id: savedOrder._id });
