@@ -13,10 +13,6 @@ body {
   grid-template-rows: auto 1fr auto;
 }
 
-main {
-
-  width: 100vw;
-}
 
 .home__header {
   background-color: $pure;
@@ -266,7 +262,7 @@ main {
     content: "";
     position: absolute;
     top: 10px;
-    left: 74.5px;
+    left: 75px;
     width: 3px;
     border-radius: 2px;
     height: 0;
