@@ -35,7 +35,7 @@
             <li class="ml-6"><a href="#menuId"> Menu </a></li>
             <!-- <li class="ml-6"><a href="#offers"> Offers </a></li> -->
             <% if(user) { %>
-            <li class="ml-6"><a href="/customer/orders"> Orders </a></li>
+              <li class="ml-6"><a href="<%= user.role === 'admin' ? '/admin/orders' : '/customer/orders' %>" > Orders </a></li>
             <li class="ml-6">
               <a id="logout" style="cursor: pointer"> Logout </a>
             </li>
