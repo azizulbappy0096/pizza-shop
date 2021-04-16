@@ -101,6 +101,7 @@ body {
 }
 
 .home__menu {
+  width: 100vw;
   .home__item {
     display: grid;
     grid-template-rows: 1fr auto auto;

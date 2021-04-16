@@ -351,6 +351,9 @@ body {
      object-fit: contain;
 }
 
+.home__menu {
+  width: 100vw;
+}
 .home__menu .home__item {
   display: grid;
   grid-template-rows: 1fr auto auto;
